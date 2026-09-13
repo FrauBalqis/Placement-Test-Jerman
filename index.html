@@ -464,7 +464,7 @@
                 card.innerHTML = `
                     <div class="flex justify-between items-start gap-4">
                         <h4 class="font-bold text-slate-800 text-sm md:text-base leading-snug">
-                            <span class="text-[#DD0000] font-black mr-1">${idx + 1}.</span> ${q.q.replace(/\n/g, '<br>')}
+                             <span class="text-[#DD0000] font-black mr-1">${idx + 1}.</span> ${q.q.replace(/\n/g, '<br>').replace(/ ⚫ /g, '<br>⚫ ')}
                         </h4>
                         <span class="text-[10px] font-extrabold bg-[#D9E6EF] text-[#234E70] px-2.5 py-1 rounded-full whitespace-nowrap">${q.pts} Pts</span>
                     </div>
@@ -551,7 +551,7 @@
                             ${isCorrect ? `+${q.pts} Poin` : '0 Poin'}
                         </span>
                     </div>
-                    <p class="text-xs md:text-sm text-slate-800 font-medium leading-relaxed">${q.q.replace(/\n/g, '<br>')}</p>
+                    <p class="text-xs md:text-sm text-slate-800 font-medium leading-relaxed">${q.q.replace(/\n/g, '<br>').replace(/ ⚫ /g, '<br>⚫ ')}</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1">
                         ${optionsReviewHTML}
                     </div>
