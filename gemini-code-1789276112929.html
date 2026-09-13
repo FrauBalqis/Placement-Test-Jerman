@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deutsch-Einstufungstest | Frau Balqis</title>
+    <!-- Tailwind CSS & FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gerRed: '#DD0000',
+                        gerGold: '#FFCE00',
+                        gerBlack: '#1A1A1A',
+                        gerBg: '#F8F7F3',
+                        gerBlue: '#234E70',
+                        gerLightBlue: '#D9E6EF',
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F8F7F3;
+            color: #1A1A1A;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        /* German Flag Top Accent Stripe */
+        .german-stripe {
+            background: linear-gradient(90deg, #1A1A1A 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%);
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans no-select flex flex-col justify-between" oncontextmenu="return false;">
+
+    <div>
+        <!-- TOP TRICOLOR ACCENT BAR -->
+        <div class="h-1.5 w-full german-stripe"></div>
+
+        <!-- APP HEADER -->
+        <header class="bg-[#1A1A1A] text-white shadow-xl sticky top-0 z-50 border-b border-amber-500/20">
+            <div class="max-w-4xl mx-auto px-4 py-3.5 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-[#DD0000] flex items-center justify-center text-white text-xl shadow-md border border-amber-400/30">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <h1 class="font-bold text-base md:text-lg text-white leading-none tracking-tight">Deutsch-Einstufungstest</h1>
+                            <span class="text-[10px] bg-[#FFCE00] text-[#1A1A1A] font-extrabold px-1.5 py-0.5 rounded uppercase">DE</span>
+                        </div>
+                        <p class="text-xs text-[#D9E6EF] font-medium mt-0.5">Mit Frau Balqis</p>
+                    </div>
+                </div>
+
+                <!-- TIMER CONTAINER -->
+                <div id="timerContainer" class="hidden bg-[#234E70] px-4 py-1.5 rounded-full border border-[#D9E6EF]/30 flex items-center space-x-2 shadow-inner">
+                    <i class="fa-regular fa-clock text-[#FFCE00] animate-pulse text-sm"></i>
+                    <span id="timerDisplay" class="font-mono font-bold text-sm md:text-base text-white">20:00</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT CONTAINER -->
+        <main class="max-w-4xl mx-auto p-4 md:p-6">
+
+            <!-- STEP 1: REGISTRASI & PILIH LEVEL -->
+            <section id="setupSection" class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/80 overflow-hidden">
+                <!-- GERMAN THEMATIC BANNER -->
+                <div class="bg-gradient-to-r from-[#1A1A1A] via-[#234E70] to-[#1A1A1A] p-6 md:p-8 text-white relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-10 opacity-10 text-white pointer-events-none">
+                        <i class="fa-solid fa-[#FFCE00] fa-landmark text-9xl"></i>
+                    </div>
+                    <div class="relative z-10 space-y-2">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FFCE00] bg-white/10 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                            <i class="fa-solid fa-certificate"></i> Offizieller Einstufungstest
+                        </span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Willkommen! Selamat Datang</h2>
+                        <p class="text-xs md:text-sm text-[#D9E6EF] max-w-xl leading-relaxed">Uji dan ukur kemampuan bahasa Jerman Anda (A1 - B1) secara presisi dengan standar kurikulum Netzwerk Neu.</p>
+                    </div>
+                </div>
+
+                <form id="startForm" onsubmit="startQuiz(event)" class="p-6 md:p-8 space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold text-[#1A1A1A] uppercase tracking-wider mb-2">Nama Lengkap Peserta <span class="text-[#DD0000]">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                            <input type="text" id="studentName" required placeholder="Masukkan nama lengkap Anda..." class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-[#F8F7F3] border border-slate-300 focus:bg-white focus:ring-2 focus:ring-[#DD0000] focus:border-[#DD0000] outline-none transition text-sm font-medium text-[#1A1A1A]">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-[#1A1A1A] uppercase tracking-wider mb-2">Pilih Level Tes <span class="text-[#DD0000]">*</span></label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+                            <label class="relative flex flex-col p-4 bg-[#F8F7F3] rounded-2xl border-2 border-slate-200 cursor-pointer hover:border-[#234E70] transition active:scale-[0.98] has-[:checked]:border-[#DD0000] has-[:checked]:bg-[#DD0000]/5">
+                                <input type="radio" name="levelChoice" value="A1" required class="sr-only">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-extrabold text-lg text-[#1A1A1A]">Level A1</span>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#FFCE00] text-[#1A1A1A]">Anfänger</span>
+                                </div>
+                                <span class="text-xs text-slate-600 leading-relaxed">Dasar (Pemula). Konjugasi, Struktur Kalimat Sederhana, Wortschatz harian.</span>
+                            </label>
+
+                            <label class="relative flex flex-col p-4 bg-[#F8F7F3] rounded-2xl border-2 border-slate-200 cursor-pointer hover:border-[#234E70] transition active:scale-[0.98] has-[:checked]:border-[#DD0000] has-[:checked]:bg-[#DD0000]/5">
+                                <input type="radio" name="levelChoice" value="A2" class="sr-only">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-extrabold text-lg text-[#1A1A1A]">Level A2</span>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#234E70] text-white">Grundstufe</span>
+                                </div>
+                                <span class="text-xs text-slate-600 leading-relaxed">Menengah Dasar. Nebensätze, Wechselpräpositionen, Passiv dasar, Perfekt.</span>
+                            </label>
+
+                            <label class="relative flex flex-col p-4 bg-[#F8F7F3] rounded-2xl border-2 border-slate-200 cursor-pointer hover:border-[#234E70] transition active:scale-[0.98] has-[:checked]:border-[#DD0000] has-[:checked]:bg-[#DD0000]/5">
+                                <input type="radio" name="levelChoice" value="B1" class="sr-only">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-extrabold text-lg text-[#1A1A1A]">Level B1</span>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#1A1A1A] text-white">Mittelstufe</span>
+                                </div>
+                                <span class="text-xs text-slate-600 leading-relaxed">Menengah Mandiri. Konjunktiv II, Relativsätze, Passiv mit Modalverben.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- RULES CARD -->
+                    <div class="bg-[#D9E6EF]/40 border border-[#234E70]/20 rounded-2xl p-4 text-xs text-[#234E70] space-y-2">
+                        <p class="font-bold flex items-center gap-2 text-sm text-[#234E70]">
+                            <i class="fa-solid fa-circle-info text-[#DD0000]"></i> Petunjuk Pengerjaan:
+                        </p>
+                        <ul class="grid grid-cols-1 md:grid-cols-3 gap-2 text-slate-700 font-medium">
+                            <li class="flex items-center gap-2 bg-white/80 p-2 rounded-lg border border-slate-200/60">
+                                <i class="fa-regular fa-clock text-[#DD0000]"></i> Durasi: <b>20 Menit</b>
+                            </li>
+                            <li class="flex items-center gap-2 bg-white/80 p-2 rounded-lg border border-slate-200/60">
+                                <i class="fa-solid fa-lock text-[#DD0000]"></i> Otomatis submit jika waktu habis
+                            </li>
+                            <li class="flex items-center gap-2 bg-white/80 p-2 rounded-lg border border-slate-200/60">
+                                <i class="fa-solid fa-shield-halved text-[#DD0000]"></i> Fitur Proteksi Anti Copy-Paste
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#DD0000] hover:bg-red-700 active:scale-[0.99] text-white font-bold py-4 rounded-2xl shadow-lg shadow-red-600/20 transition duration-200 text-base flex items-center justify-center gap-2">
+                        <span>Mulai Tes Sekarang</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </section>
+
+            <!-- STEP 2: PENGERJAAN SOAL TEST -->
+            <section id="quizSection" class="hidden space-y-5">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-[#234E70] text-white flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-user-pen"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold block">Peserta</span>
+                            <span id="displayStudentName" class="font-bold text-slate-800 text-sm"></span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold block">Level Tes</span>
+                        <span id="displayLevel" class="inline-block bg-[#FFCE00] text-[#1A1A1A] font-extrabold px-3 py-0.5 rounded-full text-xs shadow-sm"></span>
+                    </div>
+                </div>
+
+                <form id="quizForm" class="space-y-5">
+                    <!-- SOAL-SOAL AKAN DI-GENERATE VIA JAVASCRIPT DI SINI -->
+                    <div id="questionsContainer" class="space-y-4"></div>
+
+                    <button type="button" onclick="confirmSubmit()" class="w-full bg-[#1A1A1A] hover:bg-black active:scale-[0.99] text-white font-bold py-4 rounded-2xl shadow-xl transition flex items-center justify-center gap-2 text-base">
+                        <i class="fa-solid fa-paper-plane text-[#FFCE00]"></i>
+                        <span>Selesaikan Tes & Lihat Hasil</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- STEP 3: HALAMAN HASIL & REVIEW PEMBAHASAN -->
+            <section id="resultSection" class="hidden space-y-6">
+                <!-- STATUS UPLOAD OVERLAY -->
+                <div id="uploadStatus" class="bg-[#D9E6EF] border border-[#234E70]/30 text-[#234E70] p-4 rounded-2xl flex items-center justify-between shadow-sm">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-spinner fa-spin text-xl text-[#234E70]" id="uploadSpinner"></i>
+                        <span id="uploadStatusText" class="text-xs md:text-sm font-semibold">Mengunggah hasil tes otomatis sebagai PDF ke Drive Frau Balqis...</span>
+                    </div>
+                </div>
+
+                <!-- CARD REKAP SKOR -->
+                <div id="pdfArea" class="bg-white rounded-3xl shadow-xl border border-slate-200/80 p-6 md:p-8 space-y-6">
+                    <div class="text-center space-y-2 border-b border-slate-100 pb-6">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#F8F7F3] rounded-full border border-slate-200 text-xs font-bold text-[#DD0000]">
+                            🇩🇪 Evaluasi Diagnostik
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-[#1A1A1A]">Deutsch-Einstufungstest</h2>
+                        <p id="resStudentInfo" class="text-xs md:text-sm text-slate-500 font-medium"></p>
+                    </div>
+
+                    <div class="bg-[#F8F7F3] rounded-3xl p-6 text-center border border-slate-200/80 max-w-sm mx-auto space-y-2 shadow-inner">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Total Perolehan Skor</span>
+                        <div class="text-5xl font-black text-[#DD0000]" id="scoreDisplay">0 / 40</div>
+                        <div id="recommendationBadge" class="inline-block px-3 py-1.5 bg-[#FFCE00] text-[#1A1A1A] font-extrabold rounded-full text-xs mt-2 shadow-sm"></div>
+                    </div>
+
+                    <hr class="border-slate-100">
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-[#DD0000] text-white flex items-center justify-center font-bold text-xs">
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-[#1A1A1A]">Review Jawaban & Grammatik-Tipp</h3>
+                        </div>
+                        <p class="text-xs text-slate-500">Evaluasi detail dari setiap nomor soal untuk bahan pembelajaran mandiri Anda:</p>
+                        
+                        <!-- DAFTAR REVIEW SOAL AKAN DITAMPILKAN DI SINI -->
+                        <div id="reviewContainer" class="space-y-4 pt-2"></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- APP FOOTER -->
+    <footer class="mt-8 border-t border-slate-200/80 bg-white py-4 text-center text-xs text-slate-400">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2">
+            <span>&copy; 2026 Deutsch-Einstufungstest | Frau Balqis</span>
+            <span class="flex items-center gap-1.5 text-slate-500 font-medium">
+                <i class="fa-solid fa-heart text-[#DD0000]"></i> Basierend auf Netzwerk Neu
+            </span>
+        </div>
+    </footer>
+
+    <!-- KODE LOGIKA JAVASCRIPT & DATABASE SOAL -->
+    <script>
+        // ==========================================
+        // CONFIGURASI GOOGLE APPS SCRIPT URL
+        // ==========================================
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbytjN0tCCOFg3UHRhg6v-W7YWRb5cIsI7U7vZDfjUdS2j8bSvKDtTgeT93I9kwAY-6LEg/exec"; 
+
+        // ==========================================
+        // DATABASE SOAL UTUH (NETZWERK NEU A1, A2, B1)
+        // ==========================================
+        const quizDatabase = {
+            A1: [
+                { id: 1, pts: 1, q: "Hallo, ich bin Julia. Ich _____ Nina.", opts: ["heiße", "sein", "spreche", "hat"], ans: 0, exp: "Subjek 'Ich' menggunakan bentuk konjugasi kata kerja akhiran -e (heiße)." },
+                { id: 2, pts: 1, q: "☐ Hallo, Cristina. _____? ⚫ Danke, gut. Und dir?", opts: ["Wie geht's dir", "Wer bist du", "Wie geht es Ihnen", "Wie geht"], ans: 0, exp: "Jawaban 'Und dir?' (informal) menunjukkan pertanyaan sapaan informal yang tepat adalah 'Wie geht's dir?'." },
+                { id: 3, pts: 1, q: "☐ Ich komme aus Berlin. Und Sie? ⚫ _____ kommen Sie? ☐ Ich komme aus München.", opts: ["Wie", "Woher", "Wer", "Wo"], ans: 1, exp: "Kata tanya untuk asal kota/negara (aus...) adalah 'Woher'." },
+                { id: 4, pts: 1, q: "☐ Was machst du gern? ⚫ _____ Und du?", opts: ["Gern ich reise.", "Ich reise gern.", "Reise gern ich.", "Reise ich gern."], ans: 1, exp: "Struktur kalimat berita standar: Subjek (Ich) + Verb di posisi 2 (reise) + Adverb (gern)." },
+                { id: 5, pts: 1, q: "☐ _____ gehen wir ins Museum? ⚫ Am Donnerstag!", opts: ["Wie", "Wo", "Wann", "Wohin"], ans: 2, exp: "Jawaban menunjukkan waktu ('Am Donnerstag'), sehingga kata tanya yang tepat adalah 'Wann' (Kapan)." },
+                { id: 6, pts: 1, q: "☐ Ich bin Ingenieur. Was _____ Sie von Beruf? ⚫ Ich bin Journalistin.", opts: ["sind", "Bist", "haben", "hat"], ans: 0, exp: "Kata kerja 'sein' untuk subjek formal 'Sie' adalah 'sind'." },
+                { id: 7, pts: 1, q: "☐ Ist das ein Hotel? ⚫ Ja, das ist _____ Hotel Hafenblick.", opts: ["ein", "das", "der", "die"], ans: 1, exp: "Kata benda 'Hotel' bergender netral (das Hotel). Karena menyebut nama spesifik (Hotel Hafenblick), digunakan Bestimmter Artikel 'das'." },
+                { id: 8, pts: 1, q: "☐ Ist das eine Kirche? ⚫ Nein, das ist _____ Kirche. Das ist der Bahnhof!", opts: ["nicht", "kein", "keine", "eine"], ans: 2, exp: "Negasi untuk kata benda berartikel die (die Kirche) adalah 'keine'." },
+                { id: 9, pts: 1, q: "☐ Entschuldigung, wo ist bitte der Bahnhof? ⚫ Das ist ganz einfach. _____ rechts und dann geradeaus. Da ist der Bahnhof.", opts: ["Sie hier gehen", "Gehen Sie", "Machen Sie", "Gehen hier"], ans: 1, exp: "Kalimat perintah (Imperativ) untuk bentuk formal 'Sie' diawali dengan Kata Kerja: 'Gehen Sie'." },
+                { id: 10, pts: 1, q: "☐ Was essen wir heute? ⚫ Wir machen _____ Salat.", opts: ["ein", "einen", "eine", "der"], ans: 1, exp: "Kata benda 'Salat' bergender maskulin (der Salat). Di posisi objek Akkusativ berubah menjadi 'einen Salat'." },
+                { id: 11, pts: 1, q: "☐ Isst du gern Fisch? ⚫ Nein, Fisch _____ ich nicht.", opts: ["mag", "koche", "möchte", "kaufe"], ans: 0, exp: "Konjugasi kata kerja mögen untuk subjek 'ich' adalah 'mag'." },
+                { id: 12, pts: 1, q: "☐ _____ du noch Suppe? ⚫ Ja, gerne. Die Suppe ist sehr lecker.", opts: ["Brauchst", "Möchtest", "Kochst", "Hast"], ans: 1, exp: "Pertanyaan penawaran makanan/minuman yang sopan menggunakan kata kerja Modalverb 'Möchtest du...'." },
+                { id: 13, pts: 1, q: "☐ Jonas, was machst du morgen _____ halb fünf? Hast du Zeit? ⚫ Tut mir leid. Morgen muss ich zum Arzt gehen.", opts: ["am", "von", "in", "um"], ans: 3, exp: "Preposisi waktu untuk menunjukkan jam secara spesifik adalah 'um'." },
+                { id: 14, pts: 1, q: "☐ _____ du am Samstag auch arbeiten? ⚫ Nein, da habe ich frei.", opts: ["Möchtest", "Musst", "Willst", "Kannst"], ans: 1, exp: "Konjugasi Modalverb harus/keharusan (müssen) untuk subjek 'du' adalah 'Musst'." },
+                { id: 15, pts: 1, q: "☐ Das ist meine Familie und das ist _____ Hund Otto. ⚫ Ihr habt einen Hund? Super!", opts: ["dein", "Ihr", "sein", "unser"], ans: 3, exp: "Kata ganti kepunyaan (Possessivartikel) untuk 'wir' (kami/keluarga kami) dengan objek maskulin (der Hund) adalah 'unser'." },
+                { id: 16, pts: 1, q: "☐ Wir gehen morgen ins Kino. _____? ⚫ Ja, gerne. Wann?", opts: ["Kommst du mit", "Du mitkommst", "Du kommst mit", "Mitkommst du"], ans: 0, exp: "Kata kerja terpisah (Trennbares Verb) 'mitkommen' pada kalimat tanya Ja/Nein: Kata kerja utama di posisi 1 (Kommst), awalan di akhir (mit)." },
+                { id: 17, pts: 1, q: "☐ Was möchten Sie trinken? ⚫ Ich nehme eine Cola. Und für _____? Bitte eine Apfelsaftschorle.", opts: ["euch", "mich", "dich", "Sie"], ans: 1, exp: "Preposisi 'für' selalu diikuti Akkusativ. Kata ganti 'ich' berubah menjadi 'mich'." },
+                { id: 18, pts: 1, q: "☐ Wie war der Ausflug mit dem Fahrrad? ⚫ Super, wir _____ viel Spaß!", opts: ["waren", "machen", "haben", "hatten"], ans: 3, exp: "Bentuk Präteritum (lampau) dari haben untuk subjek 'wir' adalah 'hatten'." },
+                { id: 19, pts: 2, q: "Lesen Sie die E-Mail (Soal Cerita A1):\n'Lieber Karl, Laura hat am Samstag Geburtstag und wir wollen sie besuchen. Unsere Idee ist: Alle bringen etwas mit und wir kochen zusammen. Und am Abend gehen wir zusammen ins Theater. Wir laden Laura natürlich ein. Hast du Zeit? Kannst du einen Kuchen mitbringen?'\nPernyataan 1: Laura hat am Wochenende Geburtstag.\nPernyataan 2: Laura lädt ihre Freunde ins Theater ein.", opts: ["Pernyataan 1 BENAR, Pernyataan 2 BENAR", "Pernyataan 1 BENAR, Pernyataan 2 SALAH", "Pernyataan 1 SALAH, Pernyataan 2 BENAR", "Pernyataan 1 SALAH, Pernyataan 2 SALAH"], ans: 1, exp: "Pernyataan 1 Benar (Samstag = Wochenende). Pernyataan 2 Salah karena teman-temannya yang mengundang dan membayar Laura ('Wir laden Laura natürlich ein')." },
+                { id: 20, pts: 1, q: "☐ Mit wem fährst du in den Urlaub? ⚫ _____ Freundin.", opts: ["Mit dem", "Mit", "Mit einer", "Einer"], ans: 2, exp: "Preposisi 'mit' membutuhkan Dativ. Kata benda berartikel die (die Freundin) dalam Dativ unbestimmt menjadi 'einer'." },
+                { id: 21, pts: 1, q: "☐ Wo warst du heute Morgen? ⚫ Ich war _____ Zahnarzt.", opts: ["vom", "beim", "zum", "aus"], ans: 1, exp: "Menyatakan keberadaan di tempat seseorang/profesi (Wo?) menggunakan preposisi Dativ 'bei dem' -> 'beim'." },
+                { id: 22, pts: 1, q: "Sehr geehrter Herr Romero, herzlich willkommen in Düsseldorf! Ihr Sprachkurs beginnt am Montag... Haben Sie Fragen? Dann rufen Sie uns gerne an. Christopher März. \nSalam penutup resmi yang tepat adalah:", opts: ["Tschüs", "Mit freundlichen Grüßen", "Liebe Grüße", "Auf Wiedersehen"], ans: 1, exp: "Surat resmi diawali 'Sehr geehrter...' dan ditutup dengan salam formal 'Mit freundlichen Grüßen'." },
+                { id: 23, pts: 1, q: "☐ Ich habe Halsschmerzen! ⚫ _____ Milch mit Honig. Das hilft!", opts: ["Trinkst du", "Trinkt", "Trinken", "Trink"], ans: 3, exp: "Bentuk Imperativ (kalimat perintah) informal tunggal (du) dari 'trinken' adalah 'Trink'." },
+                { id: 24, pts: 1, q: "☐ Was sagt der Arzt? ⚫ Ich _____ drei Tage im Bett bleiben.", opts: ["kann", "möchte", "will", "soll"], ans: 3, exp: "Modalverb untuk menyampaikan perintah/saran dokter atau pihak ketiga adalah 'sollen' (soll)." },
+                { id: 25, pts: 1, q: "☐ Wo ist Jochen? ⚫ Er ist zu Hause. Sein Knie tut weh. Er _____ Fußball spielen.", opts: ["darf nicht", "darf", "muss", "muss nicht"], ans: 0, exp: "Larangan medis/aturan karena sakit menggunakan 'darf nicht' (tidak boleh)." },
+                { id: 26, pts: 1, q: "☐ Wie ist deine Wohnung? ⚫ Sie ist ruhig und hell, aber auch _____.", opts: ["zu billig", "dunkel", "sehr teuer", "zu laut"], ans: 2, exp: "Kata sambung 'aber' menunjukkan kontras positif ke negatif. Pilihan yang logis dan gramatis adalah 'sehr teuer'." },
+                { id: 27, pts: 1, q: "☐ Wohin stellen wir das Sofa? ⚫ _____ Wohnzimmer.", opts: ["im", "in der", "in", "ins"], ans: 3, exp: "Pertanyaan perpindahan 'Wohin?' membutuhkan Akkusativ. 'das Wohnzimmer' -> 'in das' disingkat 'ins'." },
+                { id: 28, pts: 1, q: "Lieber Max, vielen Dank für die Einladung! Können wir etwas mitbringen? Liebe Grüße Suse und Jan. Balasan yang logis adalah:", opts: ["Hoffentlich sehen wir uns bald!", "Ich habe leider keine Zeit.", "Wir kommen gern!", "Ich muss am Samstag arbeiten."], ans: 2, exp: "Menerima undangan dengan antusias disimbolkan dengan frasa 'Wir kommen gern!'." },
+                { id: 29, pts: 1, q: "☐ Wo warst du heute Morgen? ⚫ Ich war in der Uni. Peter und ich _____ unsere Präsentation geplant.", opts: ["habe", "bin", "sind", "haben"], ans: 3, exp: "Bentuk Perfekt dari 'planen' menggunakan Hilfsverb 'haben'. Subjek 'Peter und ich' (wir) -> 'haben'." },
+                { id: 30, pts: 1, q: "☐ Wo arbeitet Nico jetzt? ⚫ Er hat einen Job in München _____.", opts: ["gefallen", "gefunden", "gemacht", "genommen"], ans: 1, exp: "Pasangan frasa kerja yang tepat untuk pekerjaan/job adalah 'einen Job finden' (Partizip II: gefunden)." },
+                { id: 31, pts: 1, q: "Firma Maurer, guten Tag. ⚫ Guten Tag, hier ist Laura Apel. _____? ☐ Tut mir leid. Herr Braune ist heute leider nicht da.", opts: ["Können Sie mir die Durchwahl von Herrn Braune geben", "Können Sie das buchstabieren", "Entschuldigung, wie bitte", "Kann ich bitte mit Herrn Braune sprechen"], ans: 3, exp: "Ungkapan sopan di telepon untuk menyambungkan ke seseorang: 'Kann ich bitte mit [Nama] sprechen'." },
+                { id: 32, pts: 1, q: "☐ Kann ich _____ helfen? ⚫ Ja, bitte, ich suche einen Pullover.", opts: ["dich", "Ihnen", "Sie", "ihm"], ans: 1, exp: "Kata kerja 'helfen' selalu membutuhkan objek Dativ. Bentuk formal 'Sie' berubah menjadi 'Ihnen'." },
+                { id: 33, pts: 1, q: "☐ Welches Kleid gefällt dir? ⚫ _____ hier ist sehr schön.", opts: ["Welches", "Diese", "Welche", "Dieses"], ans: 3, exp: "Demonstrativartikel untuk kata benda netral (das Kleid) adalah 'Dieses'." },
+                { id: 34, pts: 1, q: "☐ Wo sind deine Stiefel? ⚫ Sie waren zu klein. Ich habe sie _____.", opts: ["umgetauscht", "geumtauscht", "umtauschen", "getauscht um"], ans: 0, exp: "Partizip II dari trennbares Verb 'umtauschen' memasukkan imbuhan -ge- di tengah: 'umgetauscht'." },
+                { id: 35, pts: 1, q: "☐ Regina, mit _____ warst du denn im Urlaub? ⚫ Mit zwei Freunden, Tom und Eric.", opts: ["wem", "wer", "wen", "was"], ans: 0, exp: "Preposisi 'mit' menanyakan orang membutuhkan kata tanya Dativ: 'wem'." },
+                { id: 36, pts: 1, q: "☐ Gefällt dir die Stadt? ⚫ Ja, Wien ist interessant! Hier kann _____ so viel machen.", opts: ["er", "man", "sie", "es"], ans: 1, exp: "Kata ganti subjek anonim/umum untuk menyatakan 'orang-orang/kita bisa' adalah 'man'." },
+                { id: 37, pts: 1, q: "☐ Und wie war das Wetter im Urlaub? ⚫ _____ war es nicht so gut. Am Anfang hat es viel geregnet. Später hatten wir viel Sonne.", opts: ["Dann", "Danach", "Zum Schluss", "Zuerst"], ans: 3, exp: "Urutan kronologis cerita di awal kejadian ditandai dengan kata keterangn 'Zuerst' (Pertama-tama)." },
+                { id: 38, pts: 2, q: "Lesen Sie die Postkarte (Soal Cerita A1):\n'Liebe Anne, herzliche Grüße von der Ostsee! Ralf und ich sind mit dem Fahrrad unterwegs... Gestern waren wir in Lübeck. Die Stadt gefällt mir. Wir haben die Altstadt besichtigt... Unser Hotel war auch im Zentrum, aber das Zimmer war ein bisschen laut. Wir haben nicht so gut geschlafen...'\nPernyataan 1: Caro mag Lübeck.\nPernyataan 2: Ralf und Caro waren mit dem Hotel zufrieden.", opts: ["Pernyataan 1 BENAR, Pernyataan 2 BENAR", "Pernyataan 1 BENAR, Pernyataan 2 SALAH", "Pernyataan 1 SALAH, Pernyataan 2 BENAR", "Pernyataan 1 SALAH, Pernyataan 2 SALAH"], ans: 1, exp: "Pernyataan 1 Benar ('Die Stadt gefällt mir'). Pernyataan 2 Salah karena mereka mengeluh kamarnya bising ('Zimmer war ein bisschen laut... nicht so gut geschlafen')." }
+            ],
+            A2: [
+                { id: 1, pts: 1, q: "☐ Hast du schon mit deinen Eltern gesprochen? ⚫ Ja, sie sind gestern aus dem Urlaub _____.", opts: ["zurückkommt", "zurückgekommen", "gekommen zurück", "zurückkommen"], ans: 1, exp: "Bentuk Partizip II dari trennbares Verb 'zurückkommen' adalah 'zurückgekommen'." },
+                { id: 2, pts: 1, q: "☐ Bist du _____? ⚫ Ja, meine Frau und ich kennen uns schon 15 Jahre.", opts: ["ledig", "getrennt", "verheiratet", "geschieden"], ans: 2, exp: "Konteks memiliki istri/suami selama 15 tahun menunjukkan status 'verheiratet' (menikah)." },
+                { id: 3, pts: 1, q: "☐ Warum war Lea heute nicht bei Ben? ⚫ Ich glaube, _____.", opts: ["weil besucht ihren Vater heute sie", "weil sie besucht heute ihren Vater", "weil heute besucht sie ihren Vater", "weil sie heute ihren Vater besucht"], ans: 3, exp: "Klausa bawahan Nebensatz dengan 'weil' menempatkan kata kerja terkonjugasi di paling akhir kalimat." },
+                { id: 4, pts: 1, q: "☐ Denkst du gern an deine Schulzeit? ⚫ Naja, es geht. Ich _____ immer sehr viele Hausaufgaben machen.", opts: ["durfte", "konnte", "wollte", "musste"], ans: 3, exp: "Menyatakan keharusan di masa lalu (Präteritum dari müssen) menggunakan 'musste'." },
+                { id: 5, pts: 1, q: "☐ Eine lange Reise nach dem Schulabschluss finde ich wichtig. ⚫ _____ Beginne lieber sofort eine Ausbildung.", opts: ["Das sehe ich anders.", "So einfach ist das nicht.", "Das ist eine super Idee.", "Das ist meine Meinung."], ans: 0, exp: "Ungkapan ketidaksetujuan pendapat secara sopan: 'Das sehe ich anders' (Saya berpandangan lain)." },
+                { id: 6, pts: 1, q: "☐ Weißt du, wie es Luisa geht? ⚫ Gut. Sie hat vor einem Monat mit _____ Studium angefangen.", opts: ["ihre", "ihrem", "ihren", "ihr"], ans: 1, exp: "Preposisi 'mit' membutuhkan Dativ. Kata benda netral 'das Studium' -> 'mit ihrem Studium'." },
+                { id: 7, pts: 1, q: "☐ Für mich ist das Internet _____ Fernsehen. ⚫ Ja, für mich auch!", opts: ["als wichtig als", "so wichtig als", "wichtiger als", "so wichtiger wie"], ans: 2, exp: "Perbandingan Komparativ menggunakan akhiran -er diikuti kata 'als' (wichtiger als = lebih penting daripada)." },
+                { id: 8, pts: 1, q: "☐ Was ist Ihre Meinung zum Posten von Fotos? ⚫ Ich fotografiere oft und ich finde, _____.", opts: ["dass macht viel Spaß das Posten", "dass das Posten macht viel Spaß", "dass das Posten viel Spaß macht", "dass viel Spaß das Posten macht"], ans: 2, exp: "Klausa Nebensatz dengan 'dass' menempatkan kata kerja terkonjugasi (macht) di paling akhir." },
+                { id: 9, pts: 1, q: "☐ Was machst du gern in deiner Freizeit? ⚫ Ich mache gern Sport. _____ spiele ich Basketball.", opts: ["Lieber", "Mehr", "Am besten", "Am liebsten"], ans: 3, exp: "Bentuk Superlativ dari gern untuk menyatakan kegiatan paling favorit adalah 'Am liebsten'." },
+                { id: 10, pts: 1, q: "☐ Lea und Pierre heiraten im Juni! ⚫ _____!", opts: ["Das ist ja toll! Wie schön!", "Ich wünsche dir alles Gute!", "Alles Gute zum Geburtstag!", "Das macht doch nichts!"], ans: 0, exp: "Ungkapan ucapan selamat/turut senang atas kabar gembira pernikahan: 'Das ist ja toll! Wie schön!'." },
+                { id: 11, pts: 1, q: "☐ Soll ich dich später anrufen? ⚫ Ja, _____ du mich anrufst, freue ich mich!", opts: ["dass", "dann", "weil", "wenn"], ans: 3, exp: "Klausa pengandaian/kondisional 'jika/apabila' menggunakan kata hubung 'wenn'." },
+                { id: 12, pts: 1, q: "☐ Wie hat dir die Party gefallen? ⚫ Super! Ich habe _____ lange mit deinem Bruder unterhalten.", opts: ["mich", "euch", "uns", "sich"], ans: 0, exp: "Reflexivverb 'sich unterhalten' untuk subjek 'Ich' adalah 'mich'." },
+                { id: 13, pts: 1, q: "☐ Kennst du Wien? ⚫ Ja, ich studiere dort. Die Altstadt mit den _____ Cafés finde ich toll!", opts: ["netten", "nett", "nettes", "nette"], ans: 0, exp: "Deklinasi kata sifat setelah Plural Dativ (den ...) wajib berakhiran '-en' (den netten Cafés)." },
+                { id: 14, pts: 1, q: "☐ Entschuldigung, _____ Sie mir bitte helfen? ⚫ Ja, natürlich, kein Problem!", opts: ["wurden", "dürften", "wollten", "könnten"], ans: 3, exp: "Permintaan bantuan secara sangat sopan menggunakan Konjunktiv II: 'Könnten Sie...'." },
+                { id: 15, pts: 1, q: "☐ Hast du wirklich deine Bankkarte verloren? ⚫ Ja... _____ die Karte kann ich kein Geld abheben.", opts: ["Mit", "Für", "Durch", "Ohne"], ans: 3, exp: "Preposisi Akkusativ yang berarti 'tanpa' adalah 'Ohne'." },
+                { id: 16, pts: 1, q: "☐ Was machen wir heute Abend? ⚫ Ich finde, wir gehen in ein _____ Konzert.", opts: ["klassisch", "klassischen", "klassische", "klassisches"], ans: 3, exp: "Deklinasi kata sifat untuk Unbestimmter Artikel Netral Akkusativ (ein ...) berakhiran '-es' (ein klassisches Konzert)." },
+                { id: 17, pts: 1, q: "☐ Guten Tag... Können Sie mich bitte mit Frau Sommer _____?", opts: ["verbinden", "anrufen", "sprechen", "geben"], ans: 0, exp: "Frasa standar di telepon untuk 'menyambungkan telepon ke seseorang' adalah 'mit jemandem verbinden'." },
+                { id: 18, pts: 1, q: "☐ Wir wollen am Wochenende wandern, aber Carla ist krank. ⚫ Oh... Hoffentlich _____ sie schnell wieder gesund!", opts: ["wurden", "wird", "werden", "wurde"], ans: 1, exp: "Bentuk Futur/harapan perubahan kondisi untuk subjek 'sie' (tunggal) adalah 'wird' (werden)." },
+                { id: 19, pts: 2, q: "Lesen Sie den Blog von Pascal (Soal Cerita A2):\n'Bern ist nicht besonders groß... Die historische Altstadt mag ich gern... Musikfans wie ich freuen sich, wenn das Gurtenfestival anfängt... Ich liebe Stiller Has. Die Band singt ihre Lieder auf Bärndütsch...'\nPernyataan 1: Bern ist eine internationale Stadt.\nPernyataan 2: Pascal hört nicht gern Musik.", opts: ["Pernyataan 1 BENAR, Pernyataan 2 BENAR", "Pernyataan 1 BENAR, Pernyataan 2 SALAH", "Pernyataan 1 SALAH, Pernyataan 2 BENAR", "Pernyataan 1 SALAH, Pernyataan 2 SALAH"], ans: 1, exp: "Pernyataan 1 Benar (25% pendatag asing). Pernyataan 2 Salah karena Pascal mengaku 'Musikfans wie ich' dan menyukai band Stiller Has." },
+                { id: 20, pts: 1, q: "☐ Können Sie mir bitte sagen, _____? ⚫ Ja, klar, um 17:52 Uhr.", opts: ["wann ankommt der Zug in Stuttgart", "wann der Zug in Stuttgart ankommt", "wann kommt der Zug in Stuttgart an", "wann der Zug kommt in Stuttgart an"], ans: 1, exp: "Kalimat tanya tidak langsung (Indirekte Frage) memiliki struktur Nebensatz: Verb terpisah/terkonjugasi berada di paling akhir." },
+                { id: 21, pts: 1, q: "☐ _____ Ausbildung hast du gemacht? ⚫ Eine kaufmännische. Ich arbeite im Buchladen.", opts: ["Welchen", "Was für eine", "Wie viel", "Wie lange"], ans: 1, exp: "Kata tanya 'Was für eine...' digunakan untuk menanyakan jenis/kategori dari suatu kata benda feminin (die Ausbildung)." },
+                { id: 22, pts: 1, q: "☐ Wissen Sie, _____ diese Straßenbahn ins Zentrum fährt? ⚫ Ja, sie fährt direkt zum Rathausplatz.", opts: ["wie lange", "wo", "wann", "ob"], ans: 3, exp: "Pertanyaan konfirmasi Ya/Tidak dalam bentuk tidak langsung menggunakan kata hubung 'ob' (Apakah)." },
+                { id: 23, pts: 1, q: "☐ So, das war meine Präsentation zum Thema 'Vereine in Deutschland'. ⚫ _____ Könntest du noch einmal erklären...?", opts: ["Ich möchte euch den Verein vorstellen.", "Gibt es noch Fragen?", "Ich komme jetzt zum ersten Punkt.", "Vielen Dank für deine Präsentation!"], ans: 3, exp: "Respon apresiasi penutup yang tepat setelah seseorang menyelesaikan presentasi adalah ucapan terima kasih." },
+                { id: 24, pts: 1, q: "☐ Ich kann mich nicht konzentrieren. Ich bin ständig müde. ⚫ _____.", opts: ["Du solltest einfach früher ins Bett gehen.", "Man sollte nicht schlafen.", "Schlafen Sie am Schreibtisch.", "Steh einfach früh auf."], ans: 0, exp: "Saran yang logis dan gramatis menggunakan Konjunktiv II 'solltest' untuk merespon keluhan kelelahan." },
+                { id: 25, pts: 1, q: "☐ Entschuldigung, wo ist das Museum? ⚫ Das ist ganz einfach: Gehen Sie hier über die Brücke... Das Museum ist _____.", opts: ["am Bahnhof vorbei", "gegenüber vom Bahnhof", "durch den Bahnhof", "bis zum Bahnhof"], ans: 1, exp: "Keterangan posisi keberadaan lokasi bangunan: 'gegenüber vom...' (di seberang dari...)." },
+                { id: 26, pts: 1, q: "☐ Wie war das Spiel? ⚫ Gut, wir hatten Glück! Unsere Mannschaft hat nicht so gut gespielt, _____ haben wir gewonnen.", opts: ["trotzdem", "denn", "aber", "deshalb"], ans: 0, exp: "Kata hubung berlawanan (meskipun demikian / meskipun begitu) adalah 'trotzdem'." },
+                { id: 27, pts: 1, q: "☐ Wie geht es dir in Frankfurt? ⚫ Gut. _____ ich hier angekommen bin, habe ich noch nicht viel verstanden. Aber jetzt ist mein Deutsch viel besser!", opts: ["Wann", "Als", "Wenn", "Weil"], ans: 1, exp: "Kata hubung temporal untuk peristiwa tunggal di masa lalu adalah 'Als' (Ketika)." },
+                { id: 28, pts: 1, q: "☐ Kannst du meinem Bruder die Übung erklären? ⚫ Ja, klar, ich erkläre _____ gern.", opts: ["ihn sie", "sie ihm", "sie ihn", "ihm sie"], ans: 1, exp: "Jika objek Akkusativ dan Dativ keduanya berupa kata ganti (Pronomen), maka urutannya wajib: Akkusativ dulu (sie = die Übung), baru Dativ (ihm = dem Bruder)." },
+                { id: 29, pts: 1, q: "☐ Hier dürfen Sie Ihr Fahrrad leider nicht abstellen. Das ist verboten! ⚫ Oh, _____.", opts: ["natürlich, das mache ich gern", "es stört mich, wenn Sie das machen", "schade, das geht leider nicht", "tut mir leid, das kommt nicht mehr vor"], ans: 3, exp: "Permintaan maaf yang tepat saat melanggar aturan: 'Tut mir leid, das kommt nicht mehr vor' (Maaf, tidak akan terulang lagi)." },
+                { id: 30, pts: 1, q: "☐ Wohin hast du mein Buch gelegt? ⚫ Ins Arbeitszimmer. Es _____ auf deinem Schreibtisch.", opts: ["hängt", "stellt", "legt", "liegt"], ans: 3, exp: "Menyatakan posisi posisi horizontal benda tergeletak (Wo?) menggunakan kata kerja Dativ intransitif 'liegen' (liegt)." },
+                { id: 31, pts: 1, q: "☐ Klettern? Das ist eine tolle Idee! Aber ich habe leider keine Sportschuhe. ⚫ Kein Problem... Ich leihe _____.", opts: ["meine Schuhe dir", "dir meine Schuhe", "dich meine Schuhe", "meine Schuhe dich"], ans: 1, exp: "Urutan objek standar jika salah satu berupa Nomen: Objek Dativ Pronomen (dir) diletakkan SEBELUM objek Akkusativ Nomen (meine Schuhe)." },
+                { id: 32, pts: 1, q: "☐ Was wünschst du dir? ⚫ Ich _____ gern mehr Zeit. Und ich würde gern mehr Sport machen.", opts: ["hätte", "wäre", "würde", "habe"], ans: 0, exp: "Pengandaian/keinginan halus Konjunktiv II dari kata kerja 'haben' adalah 'hätte' (saya ingin punya...)." },
+                { id: 33, pts: 1, q: "☐ _____ ärgerst du dich denn so? ⚫ Über das schlechte Wetter.", opts: ["Warum", "Über was", "Über wen", "Worüber"], ans: 3, exp: "Kata tanya Pronominaladverb untuk preposisi 'über' + benda mati adalah 'Worüber'." },
+                { id: 34, pts: 1, q: "☐ Denkst du _____ die Tickets für das Konzert? ⚫ Ja, klar, die Tickets kaufe ich.", opts: ["über", "auf", "in", "an"], ans: 3, exp: "Pasangan kata kerja tetap (Verben mit Präpositionen) untuk 'mengingat/memikirkan' adalah 'denken an' (+ Akkusativ)." },
+                { id: 35, pts: 1, q: "☐ Hast du Leo gesehen? ⚫ Nein, hier war _____.", opts: ["nichts", "jemand", "man", "niemand"], ans: 3, exp: "Kata ganti negatif untuk merujuk pada 'tidak ada orang sama sekali' adalah 'niemand'." },
+                { id: 36, pts: 1, q: "☐ Von wem sprecht ihr? ⚫ Von diesem Regisseur, _____ James Bond gedreht hat.", opts: ["die", "das", "den", "der"], ans: 3, exp: "Relativpronomen untuk subjek laki-laki (der Regisseur) di kalimat relatif adalah 'der'." },
+                { id: 37, pts: 1, q: "☐ Wie heißt der Maler, _____? ⚫ Franz Marc.", opts: ["der dich so gern sieht", "den du so gern magst", "den du so oft malst", "die du so oft siehst"], ans: 1, exp: "Klausa relatif Akkusativ maskulin (den du so gern magst) yang secara tata bahasa dan konteks paling tepat." },
+                { id: 38, pts: 2, q: "Lesen Sie den Artikel (Soal Cerita A2):\nIngrid (58): '...Ich gehe gern ins Museum... Auf diese Dinge möchte ich nicht verzichten.'\nLea (28): '...Mein Fahrrad brauche ich unbedingt...'\nFred (36): '...Auf meinen Fernseher kann ich verzichten... Aber meinen Laptop brauche ich für alles...'\nPernyataan 1: Ingrid findet es wichtig, dass sie ihre Freunde sieht.\nPernyataan 2: Lea möchte nicht auf ihr Rad verzichten.\nPernyataan 3: Fred sieht gern Serien im Fernsehen.", opts: ["Pernyataan 1 & 2 BENAR, 3 SALAH", "Pernyataan 1 & 3 BENAR, 2 SALAH", "Pernyataan 2 & 3 BENAR, 1 SALAH", "Semua Pernyataan BENAR"], ans: 0, exp: "Pernyataan 1 & 2 Benar. Pernyataan 3 Salah karena Fred menonton secara online di laptop, bukan di TV ('kann auf meinen Fernseher verzichten... online ansehen')." }
+            ],
+            B1: [
+                { id: 1, pts: 1, q: "☐ Was sind deine Urlaubspläne? ⚫ Ich möchte mich entspannen. Ich habe vor, jeden Tag _____.", opts: ["auszuschlafen", "ausschlafen", "zu ausschlafen", "schlafen aus"], ans: 0, exp: "Struktur 'haben vor' + Infinitiv mit zu. Pada trennbares Verb (ausschlafen), kata 'zu' disisipkan di tengah: 'auszuschlafen'." },
+                { id: 2, pts: 1, q: "☐ Das Hotel gefällt mir. Was ist im Preis enthalten? ⚫ _____.", opts: ["Der Aufenthalt kostet 300 Euro.", "Ja, ich kann das Hotel sehr empfehlen.", "Der Preis ist inklusive Frühstück.", "Das muss ich mir noch mal überlegen."], ans: 2, exp: "Jawaban yang secara tepat merespon pertanyaan fasilitas/hal yang termasuk dalam harga: 'Der Preis ist inklusive Frühstück'." },
+                { id: 3, pts: 1, q: "☐ Fährst du mit dem Zug nach Berlin? ⚫ Nein, ich habe mir ein Flugticket gekauft, _____ es nicht billig war. Aber mit dem Flugzeug geht es schneller.", opts: ["da", "weil", "obwohl", "wenn"], ans: 2, exp: "Kata hubung pertentangan/konsesif (meskipun/walaupun) adalah 'obwohl'." },
+                { id: 4, pts: 1, q: "☐ Ist dein Handy immer noch kaputt? ⚫ Ja, aber morgen gehe ich in den Handyladen und _____.", opts: ["habe es reparieren lassen", "lasse es reparieren", "repariere es", "reparieren lasse"], ans: 1, exp: "Frasa kausatif menyuruh orang lain memperbaiki sesuatu: 'lassen' + Akkusativ + Infinitiv ('lasse es reparieren')." },
+                { id: 5, pts: 1, q: "☐ Warum hast du gestern nicht angerufen? ⚫ Tut mir leid, ich hatte so viel zu tun, _____ ich nicht anrufen konnte.", opts: ["deswegen", "daher", "deshalb", "dass"], ans: 3, exp: "Pasangan konjungsi 'so... dass' menunjukkan konsekuensi/akibat (begitu sibuknya SEHINGGA saya tidak bisa menelepon)." },
+                { id: 6, pts: 1, q: "☐ Warum empfehlen Sie mir dieses Handy? ⚫ Die Bedienung _____ ist sehr einfach.", opts: ["das Gerät", "die Geräte", "des Gerät", "des Geräts"], ans: 3, exp: "Kepunyaan Genitiv untuk kata benda netral (das Gerät) menambahkan suffix -s/-es: 'des Geräts'." },
+                { id: 7, pts: 1, q: "☐ Wie gefällt es euch in der neuen Wohnung? ⚫ Sehr gut, vor allem _____ der Lage. Wir wohnen jetzt ganz zentral.", opts: ["mit", "wegen", "von", "trotz"], ans: 1, exp: "Preposisi Genitiv/Dativ yang menyatakan alasan (karena/disebabkan oleh) adalah 'wegen'." },
+                { id: 8, pts: 1, q: "Als ich auf dem Höhepunkt meiner Karriere war, hatte ich einen Unfall und _____ plötzlich im Rollstuhl.", opts: ["arbeitete", "saß", "fand", "lag"], ans: 1, exp: "Ungkapan idiomatis kondisi fisik terduduk di kursi roda menggunakan Präteritum dari sitzen: 'saß im Rollstuhl'." },
+                { id: 9, pts: 1, q: "☐ Wo hast du so gut Italienisch gelernt? ⚫ Als Studentin war ich _____ der Sommermonate immer in Italien.", opts: ["nach", "in", "vor", "während"], ans: 3, exp: "Preposisi waktu Genitiv yang menyatakan 'selama kurun waktu' adalah 'während'." },
+                { id: 10, pts: 1, q: "☐ Kommst du heute Abend mit ins Kino? ⚫ Ich kann leider nicht. Wenn ich nicht so viel arbeiten _____, würde ich gern mitkommen.", opts: ["wollte", "müsste", "dürfte", "musste"], ans: 1, exp: "Pengandaian Konjunktiv II dari modalverb müssen untuk menyatakan keharusan hipotesis adalah 'müsste'." },
+                { id: 11, pts: 1, q: "☐ Bist du nervös wegen des Gesprächs mit dem Chef morgen? ⚫ Nein, ich glaube, ich habe mich sehr gut _____ vorbereitet.", opts: ["auf das", "damit", "darauf", "auf ihn"], ans: 2, exp: "Reflexivverb 'sich vorbereiten auf' + hal/benda mati digantikan dengan Pronominaladverb 'darauf'." },
+                { id: 12, pts: 1, q: "Die Firma interessiert sich sehr _____, dass die Mitarbeiter zufrieden sind.", opts: ["für", "daran", "an", "dafür"], ans: 3, exp: "Pasangan tetap 'sich interessieren für' yang merujuk pada klausa dass dihubungkan dengan 'dafür'." },
+                { id: 13, pts: 1, q: "☐ Ich bin der Meinung, dass Plastiktüten besser für die Umwelt sind als Papiertüten. Respon setuju yang logis:", opts: ["Deshalb kaufe ich nur Papiertüten.", "Ja, und meine Tasche hat einen Akku.", "Das sehe ich auch so, denn man kann sie öfter verwenden...", "Ich bin davon überzeugt, dass Tüten sehr praktisch sind."], ans: 2, exp: "Ungkapan menyetujui pendapat: 'Das sehe ich auch so...' (Saya juga berpandangan demikian)." },
+                { id: 14, pts: 1, q: "☐ Wo kaufst du Gemüse ein? ⚫ Auf dem Markt, denn dort findet man das _____ Gemüse.", opts: ["gut", "am besten", "besseren", "beste"], ans: 3, exp: "Deklinasi kata sifat Superlativ berartikel bestimmter (das ...) adalah 'das beste'." },
+                { id: 15, pts: 1, q: "☐ Achtet ihr in eurer WG auf die Umwelt? ⚫ Ja, mein Mitbewohner hat einen neuen Kühlschrank gekauft, _____ wir Energie sparen.", opts: ["um Energie sparen", "um wir Energie zu sparen", "damit wir Energie sparen", "damit Energie zu sparen"], ans: 2, exp: "Klausa tujuan (Finalsatz) dengan subjek yang berbeda (Mitbewohner != wir) wajib menggunakan kata hubung 'damit'." },
+                { id: 16, pts: 1, q: "☐ Was sind deine Vorsätze für das neue Jahr? ⚫ Ich _____ jeden Tag eine halbe Stunde Sport machen.", opts: ["darf", "musste", "werde", "kann"], ans: 2, exp: "Menyatakan niat/janji di masa depan (Futur I) menggunakan kata kerja bantu 'werde'." },
+                { id: 17, pts: 1, q: "☐ Und wer sind Lisa und Hannes? ⚫ Das sind meine netten Kollegen, _____ ich nächste Woche beim Umzug helfe.", opts: ["den", "dem", "die", "denen"], ans: 3, exp: "Relativpronomen untuk Plural Dativ (die Kollegen -> helfen + Dativ) adalah 'denen'." },
+                { id: 18, pts: 1, q: "☐ Hast du eine Traumstadt? ⚫ Ja, Berlin ist eine Stadt, _____ ich gern wohnen würde.", opts: ["die", "in der", "cin die", "die in"], ans: 1, exp: "Relativpronomen lokasi keberadaan (wohnen in + Dativ feminin) adalah 'in der'." },
+                { id: 19, pts: 2, q: "Lesen Sie die E-Mail (Soal Cerita B1):\nAylin menulis: '...Für das neue Jahr habe ich mir viel vorgenommen... Weil ich dieses Jahr im Studium oft Stress hatte, habe ich vor, mich im nächsten Jahr anders auf die Prüfungen vorzubereiten. Ich werde dann nicht erst kurz vorher damit beginnen...'\nPernyataan 1: Aylin glaubt, dass sie ihre guten Vorsätze nicht einhalten kann.\nPernyataan 2: Aylin hat vor, im nächsten Jahr früher für ihre Prüfungen zu lernen.", opts: ["Pernyataan 1 BENAR, Pernyataan 2 BENAR", "Pernyataan 1 SALAH, Pernyataan 2 BENAR", "Pernyataan 1 BENAR, Pernyataan 2 SALAH", "Pernyataan 1 SALAH, Pernyataan 2 SALAH"], ans: 1, exp: "Pernyataan 1 Salah ('ich bin sicher, dass es bei mir klappt'). Pernyataan 2 Benar ('werde nicht erst kurz vorher beginnen')." },
+                { id: 20, pts: 1, q: "☐ Wie war euer Urlaub? ⚫ Nachdem wir uns an die heißen Temperaturen _____ hatten, war es super.", opts: ["gewöhnt haben", "gewöhnt hatten", "gewöhnen", "gewöhnten"], ans: 1, exp: "Klausa temporal 'Nachdem' dengan kejadian utama Präteritum (war es super) membutuhkan bentuk Plusquamperfekt ('gewöhnt hatten')." },
+                { id: 21, pts: 1, q: "☐ Wann habt ihr geheiratet? Kanntet ihr euch schon lang? ⚫ Ja, wir kannten uns schon drei Jahre, _____ wir geheiratet haben.", opts: ["nachdem", "seitdem", "wenn", "bevor"], ans: 3, exp: "Kata hubung temporal untuk urutan 'sebelum terjadinya suatu peristiwa' adalah 'bevor'." },
+                { id: 22, pts: 1, q: "☐ Bist du noch länger im Büro? ⚫ Ja, sicher. Ich bleibe hier, _____ du wiederkommst.", opts: ["als", "bis", "seit", "während"], ans: 1, exp: "Kata hubung batas akhir waktu (sampai/hingga) adalah 'bis'." },
+                { id: 23, pts: 1, q: "☐ Herr Doktor, muss ich auch Tabletten nehmen? ⚫ Nein, Sie _____ keine Tabletten zu nehmen. Aber ruhen Sie sich aus!", opts: ["brauchen", "dürfen", "müssen", "sollen"], ans: 0, exp: "Negasi ketidakharusan yang dipasangkan dengan 'zu + Infinitiv' menggunakan 'nicht/keine brauchen zu'." },
+                { id: 24, pts: 1, q: "☐ Kommst du? ⚫ Ja, gleich. Ich muss _____ noch die Haare waschen. Dann bin ich fertig.", opts: ["sie", "mich", "mir", "sich"], ans: 2, exp: "Reflexivpronomen Dativ untuk kata kerja reflexiv berpenderita anggota tubuh (die Haare) pada subjek 'Ich' adalah 'mir'." },
+                { id: 25, pts: 1, q: "☐ Was für Musik hörst du gern, Tom? ⚫ Ich mag _____ Pop _____ klassische Musik.", opts: ["zwar ... aber", "sowohl ... als auch", "nicht ... aber", "weder ... noch"], ans: 1, exp: "Doppelkonjunktion untuk menyatakan penggabungan positif dua hal sekaligus (baik... maupun...) adalah 'sowohl ... als auch'." },
+                { id: 26, pts: 1, q: "☐ Schau mal, die Anzeige: '_____ Theater sucht engagierte Schauspieler.'", opts: ["Moderne", "Modern", "Moderner", "Modernes"], ans: 3, exp: "Deklinasi kata sifat tanpa artikel (Starke Deklination) untuk Nominativ Netral (das Theater) berakhiran '-es' (Modernes)." },
+                { id: 27, pts: 1, q: "☐ Alle sprechen über das neue Bild im Büro. Wie findest du es? Susunan kalimat yang benar:", opts: ["Es gefällt nicht mir.", "Mir gefällt nicht es.", "Es mir nicht gefällt.", "Es gefällt mir nicht."], ans: 3, exp: "Urutan standar kalimat berita: Subjek (Es) + Verb (gefällt) + Objek Dativ (mir) + Negasi (nicht)." },
+                { id: 28, pts: 1, q: "☐ Geht ihr heute ins Kino? ⚫ Nein, wir gehen nicht heute ins Kino, _____.", opts: ["sondern fahren", "sondern morgen", "sondern Paul und Anna", "sondern ins Theater"], ans: 1, exp: "Struktur koreksi 'nicht heute..., sondern morgen' (bukan hari ini, melainkan besok)." },
+                { id: 29, pts: 1, q: "Unsere Organisation _____ schon von 1 Million Menschen finanziell unterstützt.", opts: ["hat", "ist", "wird", "war"], ans: 2, exp: "Bentuk Passiv Präsens memasukkan auxiliary verb 'werden' (wird ... unterstützt)." },
+                { id: 30, pts: 1, q: "☐ Kann ich dir helfen? ⚫ Ja, gern, das Essen _____. Vielleicht kannst du den Salat machen?", opts: ["muss werden vorbereitet", "muss vorbereitet werden", "wir müssen vorbereiten", "wird vorbereitet"], ans: 1, exp: "Bentuk Passiv dengan Modalverb: Modalverb terkonjugasi + Partizip II + werden (muss vorbereitet werden)." },
+                { id: 31, pts: 1, q: "☐ Gehört das Buch dir? Kann ich es leihen? ⚫ Nein, das ist nicht _____. Du musst Christine fragen...", opts: ["deiner", "mein", "meiner", "meins"], ans: 3, exp: "Possessivpronomen berdiri sendiri tanpa kata benda pengganti netral (das Buch) adalah 'meins'." },
+                { id: 32, pts: 1, q: "☐ Gibt es hier in der Nähe _____ Bankautomaten? ⚫ Nein, tut mir leid.", opts: ["irgendwelche", "irgendeins", "irgendeine", "irgendein"], ans: 0, exp: "Indefinitpronomen untuk kata benda jamak (die Bankautomaten) adalah 'irgendwelche'." },
+                { id: 33, pts: 1, q: "☐ Was kostet der Eintritt ins Museum? ⚫ Ein _____ bezahlt 8 Euro, Kinder zahlen die Hälfte.", opts: ["Erwachsene", "Erwachsen", "Erwachsenen", "Erwachsener"], ans: 3, exp: "Nominalisiertes Adjektiv maskulin tunggal tanpa artikel berakhiran '-er' (Ein Erwachsener)." },
+                { id: 34, pts: 1, q: "☐ Lebst du gern in der Stadt? ⚫ Ja, für mich gibt es hier alles, _____ man zum Leben braucht.", opts: ["die", "das", "wo", "was"], ans: 3, exp: "Relativpronomen yang merujuk pada kata ganti tak tentu 'alles' adalah 'was'." },
+                { id: 35, pts: 1, q: "☐ Wie gefällt es dir in Frankreich? ⚫ _____ länger ich dort lebe, _____ besser gefällt es mir.", opts: ["Je ... desto", "Desto ... je", "Je ... so", "Desto ... so"], ans: 0, exp: "Pasangan konjungsi korelasi Komparativ berpasangan yang tepat adalah 'Je ... desto ...'." },
+                { id: 36, pts: 1, q: "☐ Entschuldigung, wie kann ich Geld auf ein anderes Konto _____?", opts: ["senden", "überweisen", "schicken", "bringen"], ans: 1, exp: "Istilah khusus perbankan untuk mentransfer uang antar rekening adalah 'überweisen'." },
+                { id: 37, pts: 1, q: "Ich möchte ein Konto eröffnen... Bringen Sie bitte Ihren Ausweis mit und geben Sie uns das _____ Formular zurück.", opts: ["ausfüllende", "ausfüllen", "gefüllte", "ausgefüllte"], ans: 3, exp: "Partizip I/II sebagai kata sifat: Formulir yang telah selesai diisi menggunakan Partizip II 'ausgefüllte'." },
+                { id: 38, pts: 2, q: "Lesen Sie Jasmins Eintrag (Soal Cerita B1):\n'Ich kann zwar verstehen, dass viele Menschen die Globalisierung kritisch sehen, aber mir gefällt es... Ich dachte, meine Familie würde mir sehr fehlen... Aber durch das Internet ist es heutzutage so viel leichter...'\nPernyataan 1: Für Jasmin hat die Globalisierung mehr Vor- als Nachteile.\nPernyataan 2: Trotz des Internets hatte Jasmin in China manchmal Heimweh.", opts: ["Pernyataan 1 BENAR, Pernyataan 2 BENAR", "Pernyataan 1 BENAR, Pernyataan 2 SALAH", "Pernyataan 1 SALAH, Pernyataan 2 BENAR", "Pernyataan 1 SALAH, Pernyataan 2 SALAH"], ans: 0, exp: "Kedua pernyataan BENAR. Jasmin melihat sisi positif globalisasi (P1), namun mengakui terkkadang tetap merindukan rumah/keluarga 'manchmal sehr vermisst' (P2)." }
+            ]
+        };
+
+        // ==========================================
+        // STATE APLIKASI
+        // ==========================================
+        let currentLevel = 'A1';
+        let studentName = '';
+        let timerInterval = null;
+        let timeRemaining = 20 * 60; // 20 Menit dalam detik
+        let studentAnswers = {};
+
+        // ==========================================
+        // LOGIKA PENGERJAAN & TIMER
+        // ==========================================
+        function startQuiz(event) {
+            event.preventDefault();
+            studentName = document.getElementById('studentName').value.trim();
+            const selectedLevelObj = document.querySelector('input[name="levelChoice"]:checked');
+
+            if (!studentName || !selectedLevelObj) return;
+
+            currentLevel = selectedLevelObj.value;
+
+            // Update UI State
+            document.getElementById('setupSection').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
+            document.getElementById('timerContainer').classList.remove('hidden');
+            document.getElementById('displayStudentName').innerText = studentName;
+            document.getElementById('displayLevel').innerText = `Level ${currentLevel}`;
+
+            // Render Questions
+            renderQuestions();
+
+            // Start Countdown Timer
+            startTimer();
+
+            // Scroll to Top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Waktu pengerjaan (20 Menit) telah habis! Sistem akan membekukan dan mengunggah hasil tes Anda secara otomatis.");
+                    processSubmit();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timerDisplay').innerText = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function renderQuestions() {
+            const questions = quizDatabase[currentLevel];
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-200/80 space-y-4";
+
+                let optionsHTML = '';
+                q.opts.forEach((opt, optIdx) => {
+                    optionsHTML += `
+                        <label class="flex items-center space-x-3 p-3.5 rounded-xl border border-slate-200 hover:border-[#234E70] hover:bg-[#F8F7F3] cursor-pointer transition active:scale-[0.99]">
+                            <input type="radio" name="question_${idx}" value="${optIdx}" onchange="recordAnswer(${idx}, ${optIdx})" class="w-4 h-4 text-[#DD0000] focus:ring-[#DD0000]">
+                            <span class="text-xs md:text-sm font-medium text-slate-800">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start gap-4">
+                        <h4 class="font-bold text-slate-800 text-sm md:text-base leading-snug">
+                            <span class="text-[#DD0000] font-black mr-1">${idx + 1}.</span> ${q.q.replace(/\n/g, '<br>')}
+                        </h4>
+                        <span class="text-[10px] font-extrabold bg-[#D9E6EF] text-[#234E70] px-2.5 py-1 rounded-full whitespace-nowrap">${q.pts} Pts</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-1">
+                        ${optionsHTML}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function recordAnswer(questionIndex, selectedOptionIndex) {
+            studentAnswers[questionIndex] = selectedOptionIndex;
+        }
+
+        function confirmSubmit() {
+            const totalQuestions = quizDatabase[currentLevel].length;
+            const answeredCount = Object.keys(studentAnswers).length;
+
+            if (answeredCount < totalQuestions) {
+                const confirmChoice = confirm(`Anda baru menjawab ${answeredCount} dari ${totalQuestions} soal. Yakin ingin menyelesaikan tes sekarang?`);
+                if (!confirmChoice) return;
+            } else {
+                const confirmChoice = confirm("Apakah Anda sudah yakin dengan semua jawaban Anda?");
+                if (!confirmChoice) return;
+            }
+
+            clearInterval(timerInterval);
+            processSubmit();
+        }
+
+        // ==========================================
+        // PENILAIAN & PEMBAHASAN
+        // ==========================================
+        function processSubmit() {
+            document.getElementById('quizSection').classList.add('hidden');
+            document.getElementById('timerContainer').classList.add('hidden');
+            document.getElementById('resultSection').classList.remove('hidden');
+
+            const questions = quizDatabase[currentLevel];
+            let totalScore = 0;
+            let maxScore = 0;
+
+            const reviewContainer = document.getElementById('reviewContainer');
+            reviewContainer.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                maxScore += q.pts;
+                const userAns = studentAnswers[idx];
+                const isCorrect = userAns === q.ans;
+                if (isCorrect) totalScore += q.pts;
+
+                const reviewCard = document.createElement('div');
+                reviewCard.className = `p-5 rounded-2xl border-2 space-y-3 ${isCorrect ? 'bg-emerald-50/50 border-emerald-300' : 'bg-rose-50/50 border-rose-300'}`;
+
+                let optionsReviewHTML = '';
+                q.opts.forEach((opt, optIdx) => {
+                    let badge = '';
+                    let optStyle = 'border-slate-200 bg-white text-slate-600';
+
+                    if (optIdx === q.ans) {
+                        badge = '<span class="ml-auto text-[10px] bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full">Jawaban Benar</span>';
+                        optStyle = 'border-emerald-500 bg-emerald-100 text-emerald-900 font-bold';
+                    } else if (optIdx === userAns && !isCorrect) {
+                        badge = '<span class="ml-auto text-[10px] bg-[#DD0000] text-white font-bold px-2 py-0.5 rounded-full">Pilihan Anda</span>';
+                        optStyle = 'border-rose-500 bg-rose-100 text-rose-900 font-bold';
+                    }
+
+                    optionsReviewHTML += `
+                        <div class="flex items-center p-2.5 rounded-xl border text-xs ${optStyle}">
+                            <span>${opt}</span>
+                            ${badge}
+                        </div>
+                    `;
+                });
+
+                reviewCard.innerHTML = `
+                    <div class="flex justify-between items-start gap-2">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid ${isCorrect ? 'fa-circle-check text-emerald-600' : 'fa-circle-xmark text-rose-600'} text-lg"></i>
+                            <h5 class="font-bold text-slate-800 text-sm">Soal #${idx + 1}</h5>
+                        </div>
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${isCorrect ? 'bg-emerald-200 text-emerald-800' : 'bg-rose-200 text-rose-800'}">
+                            ${isCorrect ? `+${q.pts} Poin` : '0 Poin'}
+                        </span>
+                    </div>
+                    <p class="text-xs md:text-sm text-slate-800 font-medium leading-relaxed">${q.q.replace(/\n/g, '<br>')}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1">
+                        ${optionsReviewHTML}
+                    </div>
+                    <div class="bg-white/90 border border-slate-200/80 p-3.5 rounded-xl text-xs space-y-1 shadow-sm">
+                        <span class="font-bold text-[#234E70] flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb text-[#FFCE00]"></i> Grammatik-Tipp:
+                        </span>
+                        <p class="text-slate-600 leading-normal">${q.exp}</p>
+                    </div>
+                `;
+                reviewContainer.appendChild(reviewCard);
+            });
+
+            // Tampilkan Skor & Informasi
+            document.getElementById('resStudentInfo').innerText = `Nama: ${studentName} | Level Tes: ${currentLevel}`;
+            document.getElementById('scoreDisplay').innerText = `${totalScore} / ${maxScore}`;
+            
+            // Rekomendasi Level berdasarkan standar Klett
+            let recommendation = "";
+            if (totalScore <= 16) {
+                recommendation = `Rekomendasi: Masuk Sub-Level ${currentLevel}.1`;
+            } else if (totalScore <= 33) {
+                recommendation = `Rekomendasi: Masuk Sub-Level ${currentLevel}.2`;
+            } else {
+                recommendation = `Rekomendasi: Siap Lanjut ke Level di atas ${currentLevel}`;
+            }
+            document.getElementById('recommendationBadge').innerText = recommendation;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // AUTO GENERATE PDF & UPLOAD TO DRIVE
+            uploadPDFToDrive(totalScore, maxScore);
+        }
+
+        // ==========================================
+        // UTILITY: CONVERT TO PDF & SEND TO GOOGLE DRIVE
+        // ==========================================
+        function uploadPDFToDrive(score, maxScore) {
+            const pdfAreaHtml = document.getElementById('pdfArea').innerHTML;
+            const dateStr = new Date().toISOString().split('T')[0];
+            const cleanName = studentName.replace(/[^a-zA-Z0-9]/g, '_');
+            const fileName = `PlacementTest_${cleanName}_Level_${currentLevel}_${dateStr}.pdf`;
+
+            // Bungkus konten ke dalam struktur HTML lengkap untuk diubah jadi PDF oleh Apps Script
+            const fullHtml = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; color: #1A1A1A; }
+                        h2, h3 { color: #DD0000; }
+                        .border { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+                    </style>
+                </head>
+                <body>
+                    ${pdfAreaHtml}
+                </body>
+                </html>
+            `;
+
+            // Kirim Payload ke Google Apps Script via POST
+            fetch(GAS_WEB_APP_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    fileName: fileName,
+                    htmlContent: fullHtml
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const statusBox = document.getElementById('uploadStatus');
+                const statusText = document.getElementById('uploadStatusText');
+                const spinner = document.getElementById('uploadSpinner');
+
+                if (data.result === "success") {
+                    spinner.className = "fa-solid fa-circle-check text-xl text-emerald-600";
+                    statusBox.className = "bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-2xl flex items-center justify-between";
+                    statusText.innerText = "Hasil tes Anda telah berhasil tersimpan secara otomatis sebagai PDF di Drive Frau Balqis.";
+                } else {
+                    throw new Error(data.error);
+                }
+            })
+            .catch(err => {
+                const statusBox = document.getElementById('uploadStatus');
+                const statusText = document.getElementById('uploadStatusText');
+                const spinner = document.getElementById('uploadSpinner');
+
+                spinner.className = "fa-solid fa-triangle-exclamation text-xl text-amber-600";
+                statusBox.className = "bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-2xl flex items-center justify-between";
+                statusText.innerText = "Gagal mengunggah PDF otomatis. Silakan periksa koneksi atau konfigurasi Web App.";
+            });
+        }
+    </script>
+</body>
+</html>
